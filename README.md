@@ -2,7 +2,7 @@
 Deploy vlmcsd service on Docker container
 
 ```bash
-git clone https://gitee.com/asvex/vlmcsd.git vlmcsd
+git clone https://github.com/asvex/vlmcsd.git vlmcsd
 cd vlmcsd
 
 # Use docker-compose service
