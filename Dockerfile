@@ -1,12 +1,12 @@
-FROM alpine as builder
-WORKDIR /root
-RUN apk add --no-cache git make build-base && \
+from debian as build
+workdir /root
+run sed -i -e 's/deb.debian.org/mirrors.ustc.edu.cn/g' -e 's/security.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list.d/debian.sources && \
+    apt-get -y update && apt-get -y install git make gcc && \
     git clone --branch master --single-branch https://gitee.com/asvex/vlmcsd.git && \
-    cd vlmcsd/ && \
-    make
+    cd vlmcsd && make
 
-FROM alpine
+FROM busybox
 WORKDIR /root/
-COPY --from=builder /root/vlmcsd/bin/vlmcsd /usr/bin/vlmcsd
+COPY --from=build /root/vlmcsd/bin/vlmcsd /usr/bin/vlmcsd
 EXPOSE 1688/tcp
 CMD [ "/usr/bin/vlmcsd", "-D", "-d" ]
